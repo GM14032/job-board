@@ -1,16 +1,10 @@
 ﻿using job_board.Models;
 using Microsoft.AspNetCore.Mvc;
-
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System;
 using System.Text;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json.Linq;
-using System.Security.Policy;
 using job_board.utils;
-using System.Net;
 
 namespace job_board.Controllers
 {
@@ -50,10 +44,10 @@ namespace job_board.Controllers
         }
 
         [HttpPost("login")]
-        public ActionResult<string> login(UserDto request)
+        public ActionResult<string> Login(UserDto request)
         {
             String accessToken;
-            Usuario user = _context.Usuarios.First(u => u.Username == request.username);
+            Usuario user = _context.Usuarios.FirstOrDefault(u => u.Username == request.username);
 
             if (user == null)
             {
@@ -64,7 +58,7 @@ namespace job_board.Controllers
             {
                 return Unauthorized(new ErrorResponse("Usuario o contraseña incorrectas",StatusCodes.Status401Unauthorized));
             }
-            accessToken = createToken(user);
+            accessToken = CreateToken(user);
 
             return Ok(new
             {
@@ -75,7 +69,7 @@ namespace job_board.Controllers
         }
 
 
-        private string createToken(Usuario user)
+        private string CreateToken(Usuario user)
         {
             List<Claim> claims = new List<Claim>();
             claims.Add(new Claim("username", user.Username));

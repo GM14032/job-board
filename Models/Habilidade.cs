@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace job_board.Models;
 
@@ -15,7 +16,8 @@ public partial class Habilidade
 
     public string? Descripcion { get; set; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public virtual Aspirante? IdAspiranteNavigation { get; set; }
-
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public virtual OfertaLaboral? IdOfertaNavigation { get; set; }
 }

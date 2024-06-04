@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace job_board.Models;
 
@@ -17,7 +18,8 @@ public partial class AplicacionTrabajo
 
     public string? Comentario { get; set; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public virtual Aspirante? IdAspiranteNavigation { get; set; }
-
+    [JsonIgnore]
     public virtual OfertaLaboral? IdOfertaNavigation { get; set; }
 }

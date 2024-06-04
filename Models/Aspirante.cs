@@ -54,7 +54,8 @@ public partial class Aspirante
     [JsonIgnore]
     public virtual ICollection<Idioma> Idiomas { get; set; } = new List<Idioma>();
 
-    [JsonIgnore] public virtual ICollection<Logro> Logros { get; set; } = new List<Logro>();
+    [JsonIgnore]
+    public virtual ICollection<Logro> Logros { get; set; } = new List<Logro>();
 
     [JsonIgnore]
     public virtual ICollection<Publicacione> Publicaciones { get; set; } = new List<Publicacione>();
