@@ -12,6 +12,15 @@ builder.Services.AddSwaggerGen();
 
 string connectionString = builder.Configuration.GetConnectionString("SQLServerConnection");
 builder.Services.AddDbContext<SupertexDbContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin();
+        policy.AllowAnyMethod();
+        policy.AllowAnyHeader();
+    });
+});
 
 builder.Services.AddCors(options =>
 {

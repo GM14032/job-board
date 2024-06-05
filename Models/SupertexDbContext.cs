@@ -327,7 +327,8 @@ public partial class SupertexDbContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Fecha).HasColumnType("date");
 
-            entity.HasOne(d => d.IdAspiranteNavigation).WithMany(p => p.Logros)
+            entity.HasOne(d => d.IdAspiranteNavigation)
+            .WithMany(p => p.Logros)
                 .HasForeignKey(d => d.IdAspirante)
                 .HasConstraintName("FK__Logros__IdAspira__3C69FB99");
         });
