@@ -13,6 +13,15 @@ builder.Services.AddSwaggerGen();
 string connectionString = builder.Configuration.GetConnectionString("SQLServerConnection");
 builder.Services.AddDbContext<SupertexDbContext>(options => options.UseSqlServer(connectionString));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        app1 => app1
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader());
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -21,6 +30,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("CorsPolicy");
 
 app.UseHttpsRedirection();
 
