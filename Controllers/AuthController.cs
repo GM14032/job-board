@@ -14,6 +14,8 @@ namespace job_board.Controllers
         public required string password { get; set; }
 
         public int IdRol {  get; set; }
+        public int companyId { get; set; }
+        public int aspiranteId { get; set; }
     }
 
     [Route("api/auth")]
@@ -36,7 +38,12 @@ namespace job_board.Controllers
             Usuario user = new Usuario();
             user.Username = request.username;
             user.Password = password;
-            user.IdRol = request.IdRol;
+            if (request.companyId != 0) {
+                user.IdEmpresa = request.companyId;
+            }
+            if (request.aspiranteId != 0) {
+                user.IdAspirante = request.aspiranteId;
+            }
             _context.Usuarios.Add(user);
             await _context.SaveChangesAsync();
 
