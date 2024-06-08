@@ -18,9 +18,9 @@ public partial class Conocimiento
 
     public string? Nivel { get; set; }
 
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonIgnore]
     public virtual Aspirante? IdAspiranteNavigation { get; set; }
 
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonIgnore]
     public virtual OfertaLaboral? IdOfertaNavigation { get; set; }
 }
