@@ -9,6 +9,11 @@ using job_board.Models;
 
 namespace job_board.Controllers
 {
+    class ApplicacionTrabajoDto
+    {
+
+    }
+
     [Route("api/aplicacionTrabajo")]
     [ApiController]
     public class AplicacionTrabajoController : ControllerBase

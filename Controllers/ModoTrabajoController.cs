@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using job_board.Models;
+using job_board.Dto;
 
 namespace job_board.Controllers
 {
@@ -75,8 +76,12 @@ namespace job_board.Controllers
         // POST: api/ModoTrabajo
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ModoTrabajo>> PostModoTrabajo(ModoTrabajo modoTrabajo)
+        public async Task<ActionResult<ModoTrabajo>> PostModoTrabajo(ModoTrabajoDto modoTrabajoDto)
         {
+            ModoTrabajo modoTrabajo = new ModoTrabajo();
+            modoTrabajo.Descripcion = modoTrabajoDto.Descripcion;
+            modoTrabajo.Nombre = modoTrabajoDto.Nombre;
+
             _context.ModoTrabajos.Add(modoTrabajo);
             await _context.SaveChangesAsync();
 

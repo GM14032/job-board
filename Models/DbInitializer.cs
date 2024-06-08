@@ -35,6 +35,12 @@ namespace job_board.Models
             usuario.IdRol = superUser.Id;
             context.Add(usuario);
             context.SaveChanges();
+
+            // create work mode
+            context.ModoTrabajos.Add(new ModoTrabajo { Nombre = "Trabajo Remoto", Descripcion = "Trabajo 100% remoto, desde casa" });
+            context.ModoTrabajos.Add(new ModoTrabajo { Nombre = "Hibrido", Descripcion = "Trabajo hibrido, consultar dias a trabajar en empresa" });
+            context.ModoTrabajos.Add(new ModoTrabajo { Nombre = "Trabajo en Oficina", Descripcion = "Trabajo 100% en oficina" });
+            context.SaveChanges();
         }
     }
 
