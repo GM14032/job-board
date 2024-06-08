@@ -14,8 +14,23 @@ namespace job_board.Controllers
         public required string username { get; set; }
         public required string password { get; set; }
 
-        public int IdRol { get; set; }
+
+        public int IdRol {  get; set; }
+        public int companyId { get; set; }
+        public int aspiranteId { get; set; }
+
     }
+
+    public class ValidateUserDto
+    {
+        public required string username { get; set; }
+    }
+
+    public class ValidUserReturn
+    {
+        public Boolean existUser { get; set; }
+    }
+
 
     [Route("api/auth")]
     [ApiController]
@@ -37,7 +52,16 @@ namespace job_board.Controllers
             Usuario user = new Usuario();
             user.Username = request.username;
             user.Password = password;
+
             user.IdRol = request.IdRol;
+            if (request.companyId != 0)
+            {
+                user.IdEmpresa = request.companyId;
+            }
+            if (request.aspiranteId != 0)
+            {
+                user.IdAspirante = request.aspiranteId;
+            }
             try
             {
                 _context.Usuarios.Add(user);
@@ -54,7 +78,6 @@ namespace job_board.Controllers
                 return StatusCode(500, new ErrorResponse("Error inesperado al guardar.", 500, ex.InnerException.Message));
 
             }
-
         }
 
         [HttpPost("login")]
@@ -82,6 +105,16 @@ namespace job_board.Controllers
             });
         }
 
+        [HttpPost("valid-user")]
+        public ActionResult<ValidUserReturn> validUser(ValidateUserDto request)
+        {
+            Usuario user = _context.Usuarios.FirstOrDefault(u => u.Username == request.username);
+            ValidUserReturn validUserReturn = new ValidUserReturn();
+            validUserReturn.existUser = user != null;
+
+            return Ok(validUserReturn);
+        }
+
 
         private string CreateToken(Usuario user)
         {
@@ -92,6 +125,12 @@ namespace job_board.Controllers
 
             if (user.IdRolNavigation != null)
                 claims.Add(new Claim("RolName", user.IdRolNavigation.Nombre));
+
+            if (user.IdEmpresa != null)
+                claims.Add(new Claim("IdEmpresa", user.IdEmpresa.ToString()));
+
+            if (user.IdAspirante != null)
+                claims.Add(new Claim("IdAspirante", user.IdAspirante.ToString()));
 
 
             string key = _configuration.GetSection("jwtSetting:token").Value;

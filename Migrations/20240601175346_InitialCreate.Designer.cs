@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using job_board.Models;
 
@@ -11,13 +12,15 @@ using job_board.Models;
 namespace job_board.Migrations
 {
     [DbContext(typeof(SupertexDbContext))]
-    partial class SupertexDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240601175346_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "7.0.20")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -643,10 +646,6 @@ namespace job_board.Migrations
                     b.HasKey("Id")
                         .HasName("PK__Rol__3214EC071CAD7A92");
 
-                    b.HasIndex("Nombre")
-                        .IsUnique()
-                        .HasFilter("[Nombre] IS NOT NULL");
-
                     b.ToTable("Rol", (string)null);
                 });
 
@@ -658,10 +657,10 @@ namespace job_board.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool?>("Estado")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
+                    b.Property<string>("Estado")
+                        .HasMaxLength(2)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(2)");
 
                     b.Property<int?>("IdAspirante")
                         .HasColumnType("int");
@@ -690,10 +689,6 @@ namespace job_board.Migrations
                     b.HasIndex("IdEmpresa");
 
                     b.HasIndex("IdRol");
-
-                    b.HasIndex("Username")
-                        .IsUnique()
-                        .HasFilter("[Username] IS NOT NULL");
 
                     b.ToTable("Usuario", (string)null);
                 });

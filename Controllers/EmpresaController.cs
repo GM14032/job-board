@@ -9,6 +9,21 @@ using job_board.Models;
 
 namespace job_board.Controllers
 {
+
+    public class EmpresaDto
+    {
+        public int? Id { get; set; }
+        public string? Nombre { get; set; }
+
+        public string? Descripcion { get; set; }
+
+        public string? Ubicacion { get; set; }
+
+        public string? Telefono { get; set; }
+
+        public string? Email { get; set; }
+    }
+
     [Route("api/empresa")]
     [ApiController]
     public class EmpresaController : ControllerBase
@@ -44,13 +59,19 @@ namespace job_board.Controllers
         // PUT: api/Empresa/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmpresa(int id, Empresa empresa)
+        public async Task<IActionResult> PutEmpresa(int id, EmpresaDto empresaDto)
         {
-            if (id != empresa.Id)
+            if (id != empresaDto.Id)
             {
                 return BadRequest();
             }
-
+            Empresa empresa = new Empresa();
+            empresa.Id = id;
+            empresa.Nombre = empresaDto.Nombre;
+            empresa.Email = empresaDto.Email;
+            empresa.Descripcion = empresaDto.Descripcion;
+            empresa.Telefono = empresaDto.Telefono;
+            empresa.Ubicacion = empresaDto.Ubicacion;
             _context.Entry(empresa).State = EntityState.Modified;
 
             try
@@ -75,8 +96,14 @@ namespace job_board.Controllers
         // POST: api/Empresa
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Empresa>> PostEmpresa(Empresa empresa)
+        public async Task<ActionResult<Empresa>> PostEmpresa(EmpresaDto empresaDto)
         {
+            Empresa empresa = new Empresa();
+            empresa.Nombre = empresaDto.Nombre;
+            empresa.Email = empresaDto.Email;
+            empresa.Descripcion = empresaDto.Descripcion;
+            empresa.Telefono = empresaDto.Telefono;
+            empresa.Ubicacion = empresaDto.Ubicacion;
             _context.Empresas.Add(empresa);
             await _context.SaveChangesAsync();
 
