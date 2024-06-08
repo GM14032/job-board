@@ -5,6 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using job_board.utils;
+using Microsoft.EntityFrameworkCore;
 
 namespace job_board.Controllers
 {
@@ -13,7 +14,7 @@ namespace job_board.Controllers
         public required string username { get; set; }
         public required string password { get; set; }
 
-        public int IdRol {  get; set; }
+        public int IdRol { get; set; }
     }
 
     [Route("api/auth")]
@@ -37,10 +38,23 @@ namespace job_board.Controllers
             user.Username = request.username;
             user.Password = password;
             user.IdRol = request.IdRol;
-            _context.Usuarios.Add(user);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Usuarios.Add(user);
+                await _context.SaveChangesAsync();
 
-            return Created("uri",  user);
+                return Created("uri", user);
+            }
+            catch (DbUpdateException ex) when (ex.InnerException.Message.Contains("IX_Usuario_Username"))
+            {
+                return Conflict(new ErrorResponse("El Username ya está en uso.", StatusCodes.Status409Conflict, ex.InnerException.Message));
+            }
+            catch (DbUpdateException ex)
+            {
+                return StatusCode(500, new ErrorResponse("Error inesperado al guardar.", 500, ex.InnerException.Message));
+
+            }
+
         }
 
         [HttpPost("login")]
@@ -51,12 +65,12 @@ namespace job_board.Controllers
 
             if (user == null)
             {
-                return BadRequest(new ErrorResponse("Usuario no encontrado", StatusCodes.Status404NotFound));
+                return BadRequest(new ErrorResponse("Usuario no encontrado", StatusCodes.Status404NotFound, ""));
             }
 
             if (!BCrypt.Net.BCrypt.Verify(request.password, user.Password))
             {
-                return Unauthorized(new ErrorResponse("Usuario o contraseña incorrectas",StatusCodes.Status401Unauthorized));
+                return Unauthorized(new ErrorResponse("Usuario o contraseña incorrectas", StatusCodes.Status401Unauthorized, ""));
             }
             accessToken = CreateToken(user);
 
@@ -76,7 +90,7 @@ namespace job_board.Controllers
             if (user.IdRol != null)
                 claims.Add(new Claim("IdRol", user.IdRol.ToString()));
 
-            if(user.IdRolNavigation != null)
+            if (user.IdRolNavigation != null)
                 claims.Add(new Claim("RolName", user.IdRolNavigation.Nombre));
 
 
