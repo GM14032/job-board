@@ -18,6 +18,17 @@ namespace job_board.Controllers
         public int aspiranteId { get; set; }
     }
 
+    public class ValidateUserDto
+    {
+        public required string username { get; set; }
+    }
+
+    public class ValidUserReturn
+    {
+        public Boolean existUser { get; set; }
+    }
+
+
     [Route("api/auth")]
     [ApiController]
     public class AuthController : ControllerBase
@@ -73,6 +84,16 @@ namespace job_board.Controllers
                 message = "Authentication successful",
                 token = accessToken
             });
+        }
+
+        [HttpPost("valid-user")]
+        public ActionResult<ValidUserReturn> validUser(ValidateUserDto request)
+        {
+            Usuario user = _context.Usuarios.FirstOrDefault(u => u.Username == request.username);
+            ValidUserReturn validUserReturn = new ValidUserReturn();
+            validUserReturn.existUser = user != null;
+
+            return Ok(validUserReturn);
         }
 
 

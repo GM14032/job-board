@@ -433,6 +433,8 @@ public partial class SupertexDbContext : DbContext
             entity.Property(e => e.Nombre)
                 .HasMaxLength(100)
                 .IsUnicode(false);
+            entity.HasIndex(e => e.Nombre)
+            .IsUnique();
         });
 
         modelBuilder.Entity<Usuario>(entity =>
@@ -451,6 +453,9 @@ public partial class SupertexDbContext : DbContext
             entity.Property(e => e.Username)
                 .HasMaxLength(100)
                 .IsUnicode(false);
+
+            entity.HasIndex(e => e.Username)
+            .IsUnique();
 
             entity.HasOne(d => d.IdAspiranteNavigation).WithMany(p => p.Usuarios)
                 .HasForeignKey(d => d.IdAspirante)
