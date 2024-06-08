@@ -445,8 +445,7 @@ public partial class SupertexDbContext : DbContext
 
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Estado)
-                .HasMaxLength(2)
-                .IsUnicode(false);
+                .HasDefaultValue(true);
             entity.Property(e => e.Password)
                 .HasMaxLength(100)
                 .IsUnicode(false);
