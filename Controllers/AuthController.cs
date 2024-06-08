@@ -49,18 +49,26 @@ namespace job_board.Controllers
         public async Task<ActionResult<Usuario>> Register(UserDto request)
         {
             string password = BCrypt.Net.BCrypt.HashPassword(request.password);
+            List<Rol> admin = _context.Rols.Where(e => e.Nombre != null && e.Nombre == "Admin").ToList();
+            List<Rol> applicant = _context.Rols.Where(e => e.Nombre != null && e.Nombre == "Applicant").ToList();
             Usuario user = new Usuario();
             user.Username = request.username;
             user.Password = password;
 
-            user.IdRol = request.IdRol;
             if (request.companyId != 0)
             {
                 user.IdEmpresa = request.companyId;
+                if (admin.Count > 0) { 
+                    user.IdRol = admin[0].Id;
+                }
             }
             if (request.aspiranteId != 0)
             {
                 user.IdAspirante = request.aspiranteId;
+                if(applicant.Count > 0)
+                {
+                    user.IdRol = applicant[0].Id;
+                }
             }
             try
             {
