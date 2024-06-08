@@ -18,6 +18,17 @@ namespace job_board.Controllers
         public int aspiranteId { get; set; }
     }
 
+    public class ValidateUserDto
+    {
+        public required string username { get; set; }
+    }
+
+    public class ValidUserReturn
+    {
+        public Boolean existUser { get; set; }
+    }
+
+
     [Route("api/auth")]
     [ApiController]
     public class AuthController : ControllerBase
@@ -75,6 +86,16 @@ namespace job_board.Controllers
             });
         }
 
+        [HttpPost("valid-user")]
+        public ActionResult<ValidUserReturn> validUser(ValidateUserDto request)
+        {
+            Usuario user = _context.Usuarios.FirstOrDefault(u => u.Username == request.username);
+            ValidUserReturn validUserReturn = new ValidUserReturn();
+            validUserReturn.existUser = user != null;
+
+            return Ok(validUserReturn);
+        }
+
 
         private string CreateToken(Usuario user)
         {
@@ -83,8 +104,14 @@ namespace job_board.Controllers
             if (user.IdRol != null)
                 claims.Add(new Claim("IdRol", user.IdRol.ToString()));
 
-            if(user.IdRolNavigation != null)
+            if (user.IdRolNavigation != null)
                 claims.Add(new Claim("RolName", user.IdRolNavigation.Nombre));
+
+            if (user.IdEmpresa != null)
+                claims.Add(new Claim("IdEmpresa", user.IdEmpresa.ToString()));
+
+            if (user.IdAspirante != null)
+                claims.Add(new Claim("IdAspirante", user.IdAspirante.ToString()));
 
 
             string key = _configuration.GetSection("jwtSetting:token").Value;

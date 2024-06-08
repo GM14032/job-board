@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using job_board.Models;
 
@@ -11,9 +12,11 @@ using job_board.Models;
 namespace job_board.Migrations
 {
     [DbContext(typeof(SupertexDbContext))]
-    partial class SupertexDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240608031049_AddRelationWithCompany")]
+    partial class AddRelationWithCompany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -488,6 +491,9 @@ namespace job_board.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
+                    b.Property<int>("IdEmpresa")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nombre")
                         .HasMaxLength(100)
                         .IsUnicode(false)
@@ -495,6 +501,8 @@ namespace job_board.Migrations
 
                     b.HasKey("Id")
                         .HasName("PK__ModoTrab__3214EC0741122761");
+
+                    b.HasIndex("IdEmpresa");
 
                     b.ToTable("ModoTrabajo", (string)null);
                 });
@@ -809,6 +817,18 @@ namespace job_board.Migrations
                     b.Navigation("IdAspiranteNavigation");
                 });
 
+            modelBuilder.Entity("job_board.Models.ModoTrabajo", b =>
+                {
+                    b.HasOne("job_board.Models.Empresa", "IdEmpresaNavigation")
+                        .WithMany("modoTrabajo")
+                        .HasForeignKey("IdEmpresa")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK__Modo_trabajo__IdEmp__49C3F6B7");
+
+                    b.Navigation("IdEmpresaNavigation");
+                });
+
             modelBuilder.Entity("job_board.Models.OfertaLaboral", b =>
                 {
                     b.HasOne("job_board.Models.Empresa", "IdEmpresaNavigation")
@@ -902,6 +922,8 @@ namespace job_board.Migrations
                     b.Navigation("OfertaLaborals");
 
                     b.Navigation("Usuarios");
+
+                    b.Navigation("modoTrabajo");
                 });
 
             modelBuilder.Entity("job_board.Models.ModoTrabajo", b =>

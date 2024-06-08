@@ -6,9 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using job_board.Models;
+using System.Text.Json.Serialization;
+using job_board.Dto;
 
 namespace job_board.Controllers
 {
+
     [Route("api/ofertaLaboral")]
     [ApiController]
     public class OfertaLaboralController : ControllerBase
@@ -39,6 +42,12 @@ namespace job_board.Controllers
             }
 
             return ofertaLaboral;
+        }
+
+        [HttpGet("{id}/company")]
+        public async Task<ActionResult<IEnumerable<OfertaLaboral>>> GetOfertaLaboralByCompany(int id)
+        {
+            return await _context.OfertaLaborals.Where(o => o.IdEmpresa == id).ToListAsync();
         }
 
         // PUT: api/OfertaLaboral/5
@@ -75,9 +84,37 @@ namespace job_board.Controllers
         // POST: api/OfertaLaboral
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<OfertaLaboral>> PostOfertaLaboral(OfertaLaboral ofertaLaboral)
+        public async Task<ActionResult<OfertaLaboral>> PostOfertaLaboral(OfertaLaboralDto ofertaLaboralDto)
         {
+            OfertaLaboral ofertaLaboral = new OfertaLaboral();
+            ofertaLaboral.SalarioMin = ofertaLaboralDto.SalarioMin;
+            ofertaLaboral.SalarioMax = ofertaLaboralDto.SalarioMax;
+            ofertaLaboral.IdModoTrabajo = ofertaLaboralDto.IdModoTrabajo;
+            ofertaLaboral.Nombre = ofertaLaboralDto.Nombre;
+            ofertaLaboral.Descripcion = ofertaLaboralDto.Descripcion;
+            ofertaLaboral.Experiencia = ofertaLaboralDto.Experiencia;
+            ofertaLaboral.IdEmpresa = ofertaLaboralDto.IdEmpresa;
+            ofertaLaboral.PerfilAcademico = ofertaLaboralDto.PerfilAcademico;
             _context.OfertaLaborals.Add(ofertaLaboral);
+            await _context.SaveChangesAsync();
+            foreach(ConocimientoDto c in ofertaLaboralDto.Conocimientos)
+            {
+                Conocimiento conocimiento = new Conocimiento();
+                conocimiento.Descripcion = c.Descripcion;
+                conocimiento.Nivel = c.Nivel;
+                conocimiento.Nombre = c.Nombre;
+                conocimiento.IdOferta = ofertaLaboral.Id;
+                _context.Conocimientos.Add(conocimiento);
+            }
+            await _context.SaveChangesAsync();
+            foreach(HabilidadDto h in ofertaLaboralDto.Habilidades)
+            {
+                Habilidade habilidad = new Habilidade();
+                habilidad.Nombre = h.Nombre;
+                habilidad.Descripcion = h.Descripcion;
+                habilidad.IdOferta = ofertaLaboral.Id;
+                _context.Habilidades.Add(habilidad);
+            }
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetOfertaLaboral", new { id = ofertaLaboral.Id }, ofertaLaboral);
