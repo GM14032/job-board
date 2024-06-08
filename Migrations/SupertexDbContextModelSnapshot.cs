@@ -658,10 +658,10 @@ namespace job_board.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Estado")
-                        .HasMaxLength(2)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(2)");
+                    b.Property<bool?>("Estado")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<int?>("IdAspirante")
                         .HasColumnType("int");
