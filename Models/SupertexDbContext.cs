@@ -163,11 +163,11 @@ public partial class SupertexDbContext : DbContext
 
             entity.HasOne(d => d.IdAspiranteNavigation).WithMany(p => p.Conocimientos)
                 .HasForeignKey(d => d.IdAspirante)
-                .HasConstraintName("FK__Conocimie__IdAsp__60A75C0F");
+                .HasConstraintName("FK__Conocimie__IdAsp__60A75C0F").OnDelete(DeleteBehavior.Cascade);
 
             entity.HasOne(d => d.IdOfertaNavigation).WithMany(p => p.Conocimientos)
                 .HasForeignKey(d => d.IdOferta)
-                .HasConstraintName("FK__Conocimie__IdOfe__5FB337D6");
+                .HasConstraintName("FK__Conocimie__IdOfe__5FB337D6").OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Educacion>(entity =>
@@ -265,7 +265,8 @@ public partial class SupertexDbContext : DbContext
 
             entity.HasOne(d => d.IdAspiranteNavigation).WithMany(p => p.Experiencia)
                 .HasForeignKey(d => d.IdAspirante)
-                .HasConstraintName("FK__Experienc__IdAsp__398D8EEE");
+                .HasConstraintName("FK__Experienc__IdAsp__398D8EEE")
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Habilidade>(entity =>
@@ -282,11 +283,13 @@ public partial class SupertexDbContext : DbContext
 
             entity.HasOne(d => d.IdAspiranteNavigation).WithMany(p => p.Habilidades)
                 .HasForeignKey(d => d.IdAspirante)
-                .HasConstraintName("FK__Habilidad__IdAsp__5CD6CB2B");
+                .HasConstraintName("FK__Habilidad__IdAsp__5CD6CB2B")
+                .OnDelete(DeleteBehavior.Cascade);
 
             entity.HasOne(d => d.IdOfertaNavigation).WithMany(p => p.Habilidades)
                 .HasForeignKey(d => d.IdOferta)
-                .HasConstraintName("FK__Habilidad__IdOfe__5BE2A6F2");
+                .HasConstraintName("FK__Habilidad__IdOfe__5BE2A6F2")
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Idioma>(entity =>
