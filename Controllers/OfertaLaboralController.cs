@@ -27,7 +27,11 @@ namespace job_board.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OfertaLaboral>>> GetOfertaLaborals()
         {
-            return await _context.OfertaLaborals.ToListAsync();
+            return await _context.OfertaLaborals
+                .Include(o => o.AplicacionTrabajos)
+                .Include(o => o.Conocimientos)
+                .Include(o => o.Habilidades)
+                .ToListAsync();
         }
 
         // GET: api/OfertaLaboral/5

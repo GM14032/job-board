@@ -18,7 +18,7 @@ public partial class AplicacionTrabajo
 
     public string? Comentario { get; set; }
 
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonIgnore]
     public virtual Aspirante? IdAspiranteNavigation { get; set; }
     [JsonIgnore]
     public virtual OfertaLaboral? IdOfertaNavigation { get; set; }
