@@ -16,8 +16,8 @@ public partial class Habilidade
 
     public string? Descripcion { get; set; }
 
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonIgnore]
     public virtual Aspirante? IdAspiranteNavigation { get; set; }
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonIgnore]
     public virtual OfertaLaboral? IdOfertaNavigation { get; set; }
 }

@@ -24,18 +24,18 @@ public partial class OfertaLaboral
 
     public string? Experiencia { get; set; }
 
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonIgnore]
     public virtual ICollection<AplicacionTrabajo> AplicacionTrabajos { get; set; } = new List<AplicacionTrabajo>();
 
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonIgnore]
     public virtual ICollection<Conocimiento> Conocimientos { get; set; } = new List<Conocimiento>();
 
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonIgnore]
     public virtual ICollection<Habilidade> Habilidades { get; set; } = new List<Habilidade>();
 
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonIgnore]
     public virtual Empresa? IdEmpresaNavigation { get; set; }
 
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonIgnore]
     public virtual ModoTrabajo? IdModoTrabajoNavigation { get; set; }
 }
