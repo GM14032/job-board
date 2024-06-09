@@ -20,6 +20,6 @@ public partial class Experiencium
 
     public string? Periodo { get; set; }
 
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonIgnore]
     public virtual Aspirante? IdAspiranteNavigation { get; set; }
 }

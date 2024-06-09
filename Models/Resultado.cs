@@ -14,6 +14,6 @@ public partial class Resultado
 
     public string? Resultado1 { get; set; }
 
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonIgnore]
     public virtual Aspirante? IdAspiranteNavigation { get; set; }
 }

@@ -20,6 +20,6 @@ public partial class Publicacione
 
     public string? Isbn { get; set; }
 
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonIgnore]
     public virtual Aspirante? IdAspiranteNavigation { get; set; }
 }

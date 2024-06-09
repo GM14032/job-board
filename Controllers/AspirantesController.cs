@@ -34,7 +34,15 @@ namespace job_board.Controllers
           {
               return NotFound();
           }
-            var aspirante = await _context.Aspirantes.FindAsync(id);
+            var aspirante = await _context.Aspirantes
+                .Include(a => a.Educacions)
+                .Include(o => o.Certificacions)
+                .Include(o => o.Publicaciones)
+                .Include(o => o.Experiencia)
+                .Include(o => o.Conocimientos)
+                .Include(o => o.Educacions)
+                .Include(o => o.Habilidades)
+                .FirstOrDefaultAsync(o => o.Id == id);
 
             if (aspirante == null)
             {

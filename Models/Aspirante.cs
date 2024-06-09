@@ -33,34 +33,25 @@ public partial class Aspirante
     [JsonIgnore]
     public virtual ICollection<AplicacionTrabajo> AplicacionTrabajos { get; set; } = new List<AplicacionTrabajo>();
 
-    [JsonIgnore]
     public virtual ICollection<Certificacion> Certificacions { get; set; } = new List<Certificacion>();
 
-    [JsonIgnore]
     public virtual ICollection<Conocimiento> Conocimientos { get; set; } = new List<Conocimiento>();
 
-    [JsonIgnore]
     public virtual ICollection<Educacion> Educacions { get; set; } = new List<Educacion>();
 
     [JsonIgnore]
     public virtual ICollection<Evento> Eventos { get; set; } = new List<Evento>();
 
-    [JsonIgnore]
     public virtual ICollection<Experiencium> Experiencia { get; set; } = new List<Experiencium>();
 
-    [JsonIgnore]
     public virtual ICollection<Habilidade> Habilidades { get; set; } = new List<Habilidade>();
 
-    [JsonIgnore]
     public virtual ICollection<Idioma> Idiomas { get; set; } = new List<Idioma>();
 
-    [JsonIgnore]
     public virtual ICollection<Logro> Logros { get; set; } = new List<Logro>();
 
-    [JsonIgnore]
     public virtual ICollection<Publicacione> Publicaciones { get; set; } = new List<Publicacione>();
 
-    [JsonIgnore]
     public virtual ICollection<Resultado> Resultados { get; set; } = new List<Resultado>();
 
     [JsonIgnore]
