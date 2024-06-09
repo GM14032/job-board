@@ -152,7 +152,7 @@ public partial class SupertexDbContext : DbContext
 
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Descripcion)
-                .HasMaxLength(255)
+                .HasMaxLength(500)
                 .IsUnicode(false);
             entity.Property(e => e.Nivel)
                 .HasMaxLength(20)
@@ -200,7 +200,7 @@ public partial class SupertexDbContext : DbContext
 
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Descripcion)
-                .HasMaxLength(255)
+                .HasMaxLength(500)
                 .IsUnicode(false);
             entity.Property(e => e.Email)
                 .HasMaxLength(25)
@@ -248,7 +248,7 @@ public partial class SupertexDbContext : DbContext
 
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Funciones)
-                .HasMaxLength(255)
+                .HasMaxLength(500)
                 .IsUnicode(false);
             entity.Property(e => e.NombreOrganizacion)
                 .HasMaxLength(100)
@@ -275,7 +275,7 @@ public partial class SupertexDbContext : DbContext
 
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Descripcion)
-                .HasMaxLength(255)
+                .HasMaxLength(500)
                 .IsUnicode(false);
             entity.Property(e => e.Nombre)
                 .HasMaxLength(100)
@@ -326,7 +326,7 @@ public partial class SupertexDbContext : DbContext
 
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Descripcion)
-                .HasMaxLength(255)
+                .HasMaxLength(500)
                 .IsUnicode(false);
             entity.Property(e => e.Fecha).HasColumnType("date");
 
@@ -359,16 +359,16 @@ public partial class SupertexDbContext : DbContext
 
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Descripcion)
-                .HasMaxLength(255)
+                .HasMaxLength(500)
                 .IsUnicode(false);
             entity.Property(e => e.Experiencia)
-                .HasMaxLength(100)
+                .HasMaxLength(500)
                 .IsUnicode(false);
             entity.Property(e => e.Nombre)
                 .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.PerfilAcademico)
-                .HasMaxLength(250)
+                .HasMaxLength(500)
                 .IsUnicode(false);
 
             entity.HasOne(d => d.IdEmpresaNavigation).WithMany(p => p.OfertaLaborals)

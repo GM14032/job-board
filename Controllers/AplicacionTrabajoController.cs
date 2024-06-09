@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using job_board.Models;
@@ -104,6 +100,30 @@ namespace job_board.Controllers
             return NoContent();
         }
 
+        //GET: api/OfertaLaboral/oferta/6/aspirantes
+        //select * from AplicacionTrabajo as atr inner join Aspirante a on atr.IdAspirante=a.Id and atr.idOferta=1;
+        [HttpGet("oferta/{id}/aspirantes")]
+        public async Task<ActionResult<IEnumerable<AplicacionTrabajo>>> GetAspirantes(int id)
+        {
+            var aplicaciones = await _context.AplicacionTrabajos
+             .Where(at => at.IdOferta == id)
+             .Join(_context.Aspirantes,
+                 at => at.IdAspirante,
+                 a => a.Id,
+                 (at, a) => new
+                 {
+                     AplicacionTrabajo = at,
+                     Aspirante = a
+                 })
+             .ToListAsync();
+
+            if (aplicaciones == null || aplicaciones.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(aplicaciones);
+        }
         private bool AplicacionTrabajoExists(int id)
         {
             return _context.AplicacionTrabajos.Any(e => e.Id == id);

@@ -38,7 +38,11 @@ namespace job_board.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<OfertaLaboral>> GetOfertaLaboral(int id)
         {
-            var ofertaLaboral = await _context.OfertaLaborals.FindAsync(id);
+            var ofertaLaboral = await _context.OfertaLaborals
+                .Include(o => o.AplicacionTrabajos)
+                .Include(o => o.Conocimientos)
+                .Include(o => o.Habilidades)
+                .FirstOrDefaultAsync(o => o.Id == id);
 
             if (ofertaLaboral == null)
             {
